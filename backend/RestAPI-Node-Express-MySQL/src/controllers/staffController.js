@@ -4,13 +4,14 @@ export const getStaffs = (req, res) => {
   const sqlQuery = "SELECT * FROM cm_ho_staff";
   // let total_result = [];
   // let staff_result = [];
+  console.log("getstaff");
 
   dbConnection.query(sqlQuery, (error, results) => {
     if (error) {
       console.log("error---->", error);
       throw error;
     }
-
+    console.log("results", results);
     res.status(200).json(results);
   });
   // for (let i = 0; i < staff_result.length; i++) {
