@@ -36,19 +36,19 @@ function Col({ row }) {
 
   const checkTimeTrackStatus = useCallback(async () => {
     const response = await checkTimeTrack(row.SID);
-    console.log("111111-->", response);
+    // console.log("111111-->", response);
     setDisabled(response);
-    console.log("response------->", row.SID);
-    console.log(disabledRow);
-    // if (disabledRow === String(row.SID)) {
-    //   console.log("11111");
-    //   setDisabled(true);
-    // }
+    // console.log("response------->", row.SID);
   }, []);
 
   useEffect(() => {
     checkTimeTrackStatus();
-  }, []);
+    console.log("rowwwww");
+    if (String(disabledRow) === String(row.SID)) {
+      console.log("1111------>", false);
+      setDisabled(false);
+    }
+  }, [disabledRow]);
 
   return (
     <tr>
