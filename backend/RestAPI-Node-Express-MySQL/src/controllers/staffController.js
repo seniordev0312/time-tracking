@@ -71,6 +71,10 @@ export const checkTimeTrack = (req, res) => {
   });
 };
 
+export const createTimeTrack = (req, res) => {
+  const id = req.body.id;
+};
+
 // export const getCustomersById = (req, res) => {
 
 //     const id = parseInt(req.params.id);
