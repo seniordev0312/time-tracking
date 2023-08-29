@@ -1,4 +1,4 @@
-import { useContext, useCallback, useEffect, useState } from "react";
+import { useContext, useCallback, useEffect, useState, useRef } from "react";
 import { MainContext } from "../../context";
 import { checkTimeTrack } from "../../service/axios";
 let classNames = require("classnames");
@@ -12,7 +12,8 @@ function Col({ row }) {
     disabledRow,
   } = useContext(MainContext);
 
-  const [disabled, setDisabled] = useState(false);
+  // const [disabled, setDisabled] = useState(false);
+  let disabled = useRef(true);
 
   const openPinModal = useCallback(() => {
     setPinModal(true);
@@ -37,18 +38,18 @@ function Col({ row }) {
   const checkTimeTrackStatus = useCallback(async () => {
     const response = await checkTimeTrack(row.SID);
     // console.log("111111-->", response);
-    setDisabled(response);
+    // setDisabled(response);
+    disabled.current = response;
     // console.log("response------->", row.SID);
   }, []);
+  if (String(disabledRow) === String(row.SID)) {
+    console.log("1111------>", false);
+    disabled.current = false;
+  }
 
   useEffect(() => {
     checkTimeTrackStatus();
-    console.log("rowwwww");
-    if (String(disabledRow) === String(row.SID)) {
-      console.log("1111------>", false);
-      setDisabled(false);
-    }
-  }, [disabledRow]);
+  }, []);
 
   return (
     <tr>
@@ -61,7 +62,7 @@ function Col({ row }) {
       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
         <button
           type="button"
-          disabled={!disabled}
+          disabled={!disabled.current}
           onClick={() => openPinModal()}
           className="rounded-md disabled:opacity-25 bg-slate-50 px-10 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-200"
         >
