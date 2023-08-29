@@ -6,7 +6,10 @@ export const getStaffs = (req, res) => {
   // let staff_result = [];
 
   dbConnection.query(sqlQuery, (error, results) => {
-    if (error) throw error;
+    if (error) {
+      console.log("error---->", error);
+      throw error;
+    }
 
     res.status(200).json(results);
   });
