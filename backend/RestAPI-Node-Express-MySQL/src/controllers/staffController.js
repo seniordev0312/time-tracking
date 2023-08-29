@@ -1,6 +1,7 @@
 import dbConnection from "../database/dbConnection";
 
 export const getStaffs = (req, res) => {
+  console.log(1);
   const sqlQuery = "SELECT * FROM cm_ho_staff";
   // let total_result = [];
   // let staff_result = [];
