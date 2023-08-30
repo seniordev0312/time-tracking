@@ -7,12 +7,13 @@ import {
   getStaffs,
   matchPin,
   checkTimeTrack,
-  // createTimeTrack,
+  startTimeTrack,
 } from "../controllers/staffController";
 
 //* Here I defined the methods
 router.get("/", getStaffs);
 router.post("/pin/:id", matchPin);
 router.get("/timeTrack/:id", checkTimeTrack);
+router.post("/timeTrack/start", startTimeTrack);
 
 export default router;

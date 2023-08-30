@@ -1,18 +1,15 @@
 import dbConnection from "../database/dbConnection";
 
 export const getStaffs = (req, res) => {
-  console.log(1);
   const sqlQuery = "SELECT * FROM cm_ho_staff";
   // let total_result = [];
   // let staff_result = [];
-  console.log("getstaff");
 
   dbConnection.query(sqlQuery, (error, results) => {
     if (error) {
       console.log("error---->", error);
       throw error;
     }
-    console.log("results", results);
     res.status(200).json(results);
   });
   // for (let i = 0; i < staff_result.length; i++) {
@@ -55,11 +52,19 @@ export const checkTimeTrack = (req, res) => {
     const hour = date.getHours();
     const minute = date.getMinutes();
     for (let i = 0; i < results.length; i++) {
+      console.log(
+        results[i].WORK_DATE.toLocaleString(),
+        new Date().toLocaleString()
+      );
       if (
-        String(results[i].WORK_DATE).split("T")[0] ===
-        year + "-" + month + "-" + day
+        String(results[i].WORK_DATE.toLocaleString()).split(",")[0] ===
+          date.toLocaleString().split(",")[0] ||
+        hour + minute * 0.01 < 7.45
       ) {
+        console.log("111");
         status = false;
+        return res.status(200).json(status);
+
         break;
       } else {
         status = true;
@@ -67,17 +72,33 @@ export const checkTimeTrack = (req, res) => {
         break;
       }
     }
-    if (hour + minute * 0.01 < 7.45) {
-      status = false;
-    } else {
-      status = true;
-    }
+    // if () {
+    //   status = false;
+    // } else {
+    //   status = true;
+    // }
     return res.status(200).json(status);
   });
 };
 
-export const createTimeTrack = (req, res) => {
-  const id = req.body.id;
+export const startTimeTrack = (req, res) => {
+  const staff_id = req.body.id;
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDay();
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  const second = date.getSeconds();
+  const sqlQuery = `INSERT INTO cm_ho_working_plans (STAFF_ID, WORK_DATE, TIME_START) VALUES (${staff_id}, "${
+    date.toISOString().split("T")[0]
+  }", "${date.toISOString().split("T")[1].split(".")[0]}")`;
+  dbConnection.query(sqlQuery, (error, results) => {
+    if (error) {
+      throw error;
+    }
+    return res.status(200).json("success");
+  });
 };
 
 // export const getCustomersById = (req, res) => {
