@@ -15,7 +15,6 @@ function App() {
   const [currentItems, setCurrentItems] = useState([]);
   const { isPinModal, isStopModal, isRequestModal, disabledRow } =
     useContext(MainContext);
-  console.log("disabled row ========>", disabledRow);
   // Simulate fetching items from another resources.
   // (This could be items from props; or items loaded in a local state
   // from an API endpoint with useEffect and useState)
@@ -38,7 +37,6 @@ function App() {
 
   useEffect(() => {
     getStaffData();
-    console.log(disabledRow);
   }, []);
 
   return (
@@ -54,7 +52,7 @@ function App() {
                 </thead>
                 <tbody className="divide-y text-center divide-gray-200 bg-white">
                   {currentItems.map((data, index) => (
-                    <Col key={index} row={data} />
+                    <Col key={index} row={data} ind={index} />
                   ))}
                 </tbody>
               </table>

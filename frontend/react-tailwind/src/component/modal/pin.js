@@ -1,6 +1,6 @@
 import { useCallback, useContext, useState } from "react";
 import { MainContext } from "../../context";
-import { checkPinCode } from "../../service/axios";
+import { checkPinCode, startTimeTrack } from "../../service/axios";
 
 function PinModal() {
   const closeModal = useCallback(() => {
@@ -9,7 +9,6 @@ function PinModal() {
 
   const { selectedStaff, setPinModal, setDisabledRow } =
     useContext(MainContext);
-  // const { selectedStaff } = useContext(MainContext);
   const [pin, setPin] = useState("");
 
   const handleChange = useCallback((e) => {
@@ -17,14 +16,15 @@ function PinModal() {
   }, []);
 
   const checkPin = useCallback(async () => {
-    // e.preventDefault();
     console.log(pin);
     const data = { pin: pin };
     try {
-      // console.log(data, selectedStaff);
       await checkPinCode(data, selectedStaff);
       setDisabledRow(selectedStaff);
-
+      const staffData = {
+        id: selectedStaff,
+      };
+      await startTimeTrack(staffData);
       alert("Time track started successfully!");
       closeModal();
     } catch {
@@ -34,12 +34,6 @@ function PinModal() {
   }, [pin]);
 
   return (
-    // <div
-    //   id="authentication-modal"
-    //   tabIndex="-1"
-    //   // aria-hidden="true"
-    //   className="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
-    // >
     <div className="relative w-full max-w-md] max-h-full">
       <div className="relative bg-white rounded-lg shadow min-h-[80% dark:bg-gray-700">
         <button
@@ -98,7 +92,6 @@ function PinModal() {
         </div>
       </div>
     </div>
-    // </div>
   );
 }
 

@@ -21,8 +21,17 @@ export const checkPinCode = async (data, id) => {
 };
 
 // check the the time track is running.
-
 export const checkTimeTrack = async (id) => {
   const response = await axios.get(`${API_URL}/staff/timeTrack/${id}`, config);
+  return response.data;
+};
+
+// create the time track of today.
+export const startTimeTrack = async (data) => {
+  const response = await axios.post(
+    `${API_URL}/staff/timeTrack/start`,
+    data,
+    config
+  );
   return response.data;
 };

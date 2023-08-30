@@ -1,7 +1,6 @@
 import { useContext, useCallback, useEffect, useState, useRef } from "react";
 import { MainContext } from "../../context";
 import { checkTimeTrack } from "../../service/axios";
-let classNames = require("classnames");
 
 function Col({ row }) {
   const {
@@ -12,8 +11,7 @@ function Col({ row }) {
     disabledRow,
   } = useContext(MainContext);
 
-  // const [disabled, setDisabled] = useState(false);
-  let disabled = useRef(true);
+  const [disabledStatus, setDisabledStatus] = useState(true);
 
   const openPinModal = useCallback(() => {
     setPinModal(true);
@@ -37,19 +35,12 @@ function Col({ row }) {
 
   const checkTimeTrackStatus = useCallback(async () => {
     const response = await checkTimeTrack(row.SID);
-    // console.log("111111-->", response);
-    // setDisabled(response);
-    disabled.current = response;
-    // console.log("response------->", row.SID);
+    console.log("resoibse", response);
+    setDisabledStatus(response);
   }, []);
-  if (String(disabledRow) === String(row.SID)) {
-    console.log("1111------>", false);
-    disabled.current = false;
-  }
-
   useEffect(() => {
     checkTimeTrackStatus();
-  }, []);
+  }, [disabledRow]);
 
   return (
     <tr>
@@ -62,7 +53,7 @@ function Col({ row }) {
       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
         <button
           type="button"
-          disabled={!disabled.current}
+          disabled={!disabledStatus}
           onClick={() => openPinModal()}
           className="rounded-md disabled:opacity-25 bg-slate-50 px-10 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-200"
         >
@@ -93,9 +84,9 @@ function Col({ row }) {
             id="helper-radio"
             aria-describedby="helper-radio-text"
             type="radio"
-            disabled={disabled.current ? false : true}
+            disabled={disabledStatus ? false : true}
             value=""
-            defaultChecked={disabled.current ? true : false}
+            defaultChecked={disabledStatus ? true : false}
             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
           />
         </div>
