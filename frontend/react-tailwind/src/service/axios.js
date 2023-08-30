@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = `http://localhost:8001`;
+const API_URL = `http://3.90.166.108:8001`;
 
 const config = {
   headers: {
